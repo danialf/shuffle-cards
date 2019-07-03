@@ -1,0 +1,90 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+
+    <title>Shuffle Deck</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <ul class="list-unstyled" id="deck">
+            <!--<li>
+                <div class="card black">
+                    <span class="card-suit card-suit-top">♣</span>
+                    <span class="card-number">A</span>
+                    <span class="card-suit card-suit-bottom">♣</span>
+                </div>
+            </li>-->
+        </ul>
+
+        <button id="reShuffle" class="btn btn-primary">shuffle deck</button>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <script>
+        (function () {
+
+            var cardWeights = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
+            var cardTypes = [["♥", "red"], ["♦", "red"], ["♠", "black"], ["♣", "black"]];
+            var cards = new Array();
+
+            function Card(cardType, weight) {
+                this.cardType = cardType;
+                this.weight = weight;
+            };
+
+            function createDeck() {
+                cardTypes.forEach(function (weight) {
+                    cardWeights.forEach(function (type) {
+                        cards.push(new Card(type, weight));
+                    });
+                });
+            };
+
+            function shuffleDeck() {
+                for (let i = cards.length - 1; i > 0; i--) {
+                    let j = Math.floor(Math.random() * (i + 1));
+                    [cards[i], cards[j]] = [cards[j], cards[i]];
+                }
+            }
+
+            function decorate(shuffledCards) {
+                var deck = document.getElementById("deck");
+                deck.innerHTML = "";
+
+                shuffledCards.forEach(function (card) {
+                    deck.innerHTML += `<li><div class="card ${card.weight[1]}"><span class="card-suit card-suit-top">${card.weight[0]}</span><span class="card-number">${card.cardType
+                        }</span><span class="card-suit card-suit-bottom">${card.weight[0]}</span></div></li>`;
+                });
+            }
+
+            function reShuffle() {
+                shuffleDeck();
+                decorate(cards);
+            }
+
+            createDeck();
+
+            shuffleDeck();
+
+            decorate(cards);
+
+            document.getElementById("reShuffle").addEventListener("click", reShuffle);
+
+        })();
+
+
+    </script>
+</body>
+</html>
